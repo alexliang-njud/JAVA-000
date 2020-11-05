@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/JAVA-000.iml" filepath="$PROJECT_DIR$/.idea/JAVA-000.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Week_03/02nio/nio02/netty-gateway.iml" filepath="$PROJECT_DIR$/Week_03/02nio/nio02/netty-gateway.iml" />
     </modules>
   </component>
 </project>
