@@ -1,0 +1,88 @@
+#基于电商交易场景（用户、商品、订单），设计一套简单的表结构，
+#提交 DDL 的 SQL 文件到 Github（后面 2 周的作业依然要是用到这个表结构）。
+
+
+CREATE TABLE ds_user (
+	id INT(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	user_id VARCHAR(32) NOT NULL COMMENT '用户id',
+	user_name VARCHAR(200) NOT NULL DEFAULT '' COMMENT '用户名称',
+	user_status TINYINT(3) NOT NULL DEFAULT 0 COMMENT '0-注销，1-使用中',
+	del_flag TINYINT(3) NOT NULL DEFAULT 0 COMMENT '0-失效，1-有效',
+	creator VARCHAR(32) NOT NULL DEFAULT '' COMMENT '创建人',
+	created_tm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+	modifier VARCHAR(32) NOT NULL DEFAULT '' COMMENT '修改人',
+	modified_tm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+	PRIMARY KEY (id),
+	INDEX ds_user_id (user_id)
+)
+COMMENT='电商系统用户信息表'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE ds_product (
+	id INT(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	sku_id INT(32) NOT NULL COMMENT '商品Id',
+	sku_name VARCHAR(200) NOT NULL DEFAULT '' COMMENT '商品Name',
+	status TINYINT(3) NOT NULL DEFAULT 0 COMMENT '0-下架，1-上架',
+	price DECIMAL(20,6) NOT NULL DEFAULT 0 COMMENT '商品价格',
+	del_flag TINYINT(3) NOT NULL DEFAULT 0 COMMENT '0-失效，1-有效',
+	creator VARCHAR(32) NOT NULL DEFAULT '' COMMENT '创建人',
+	created_tm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+	modifier VARCHAR(32) NOT NULL DEFAULT '' COMMENT '修改人',
+	modified_tm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+	PRIMARY KEY (id),
+	INDEX ds_sku_id (sku_id,status)
+)
+COMMENT='电商系统商品表'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE ds_order (
+	id INT(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	order_id INT(32) NOT NULL COMMENT '订单id',
+	user_id VARCHAR(32) NOT NULL DEFAULT '' COMMENT '用户id',
+	order_amount DECIMAL(20,6) NOT NULL DEFAULT 0 COMMENT '订单金额',
+	order_status TINYINT(3) NOT NULL DEFAULT 0 COMMENT '0-已下单，1-已支付，2-已出库，3-已送达，4-已取消',
+    pay_amount DECIMAL(20,6) NOT NULL DEFAULT 0 COMMENT '支付金额',
+	pay_no VARCHAR(64) NOT NULL DEFAULT '' COMMENT '支付流水号',
+	address_id VARCHAR(64) NOT NULL DEFAULT '' COMMENT '地址id',
+	del_flag TINYINT(3) NOT NULL DEFAULT 0 COMMENT '0-失效，1-有效',
+	creator VARCHAR(32) NOT NULL DEFAULT '' COMMENT '创建人',
+	created_tm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+	modifier VARCHAR(32) NOT NULL DEFAULT '' COMMENT '修改人',
+	modified_tm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+	PRIMARY KEY (id),
+	INDEX ds_order_id (order_id,order_status),
+	INDEX ds_user_id (user_id),
+	INDEX ds_pay_no (pay_no)
+)
+COMMENT='电商系统订单表'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE ds_address (
+	id INT(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+	address_id VARCHAR(64) NOT NULL COMMENT '地址id',
+	user_id VARCHAR(32) NOT NULL COMMENT '用户id',
+	national VARCHAR(32) NOT NULL DEFAULT '' COMMENT '国家',
+	province VARCHAR(32) NOT NULL DEFAULT '' COMMENT '省份',
+	city VARCHAR(32) NOT NULL DEFAULT '' COMMENT '城市',
+	detail_address VARCHAR(200) NOT NULL DEFAULT '' COMMENT '详细地址',
+	del_flag TINYINT(3) NOT NULL DEFAULT 0 COMMENT '0-失效，1-有效',
+	creator VARCHAR(32) NOT NULL DEFAULT '' COMMENT '创建人',
+	created_tm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+	modifier VARCHAR(32) NOT NULL DEFAULT '' COMMENT '修改人',
+	modified_tm DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+	PRIMARY KEY (id),
+	INDEX ds_address_id (address_id),
+	INDEX ds_user_id (user_id)
+)
+COMMENT='电商系统用户地址表'
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+
