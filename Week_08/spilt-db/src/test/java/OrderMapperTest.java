@@ -1,5 +1,3 @@
-package mappers;
-
 import entity.Order;
 import mapper.OrderMapper;
 import org.junit.jupiter.api.Test;
@@ -15,9 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@SpringBootTest
+@SpringBootTest(classes = SplitDbApplication.class)
 @ExtendWith(SpringExtension.class)
-@MapperScan("mappers")
+@MapperScan("mapper")
 public class OrderMapperTest {
     @Autowired
     private OrderMapper orderMapper;
@@ -30,16 +28,17 @@ public class OrderMapperTest {
     @Transactional
     public void test() throws SQLException {
         // 通过sharding插入数据，通过sharding自己的日志输出看出插入不同的数据库和表
-        orderMapper.insertOne(new Order(1L, 1L));
-        orderMapper.insertOne(new Order(2L, 2L));
+//        orderMapper.insertOne(new Order(1L, 1L));
+//        orderMapper.insertOne(new Order(2L, 2L));
+//        orderMapper.insertOne(new Order(1L, 3L));
 
         // 只传user_id，看到单库进行了所有表的查询
         Map<String, Object> condition = new HashMap<>(1);
         condition.put("user_id", 1L);
 
         List<Map<String, Object>> orderQuery = orderMapper.query(condition);
-        assert orderQuery.size() == 1;
-        for (Map item: orderQuery) {
+        assert orderQuery.size() == 2;
+        for (Map<String, Object> item: orderQuery) {
             System.out.println(item.toString());
         }
 
