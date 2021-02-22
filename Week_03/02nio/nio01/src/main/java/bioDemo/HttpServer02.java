@@ -1,20 +1,19 @@
-package java0.nio01;
+package bioDemo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class HttpServer03 {
+public class HttpServer02 {
     public static void main(String[] args) throws IOException{
-        ExecutorService executorService = Executors.newFixedThreadPool(40);
-        final ServerSocket serverSocket = new ServerSocket(8803);
+        ServerSocket serverSocket = new ServerSocket(8802);
         while (true) {
             try {
                 final Socket socket = serverSocket.accept();
-                executorService.execute(() -> service(socket));
+                new Thread(() -> {
+                    service(socket);
+                }).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }

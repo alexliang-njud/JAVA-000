@@ -1,19 +1,17 @@
-package java0.nio01;
+package bioDemo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class HttpServer02 {
+public class HttpServer01 {
     public static void main(String[] args) throws IOException{
-        ServerSocket serverSocket = new ServerSocket(8802);
+        ServerSocket serverSocket = new ServerSocket(8801);
         while (true) {
             try {
-                final Socket socket = serverSocket.accept();
-                new Thread(() -> {
-                    service(socket);
-                }).start();
+                Socket socket = serverSocket.accept();
+                service(socket);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -32,7 +30,9 @@ public class HttpServer02 {
             printWriter.write(body);
             printWriter.close();
             socket.close();
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e){
             e.printStackTrace();
         }
     }
